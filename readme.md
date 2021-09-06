@@ -6,3 +6,10 @@ Security](https://kursuskatalog.au.dk/en/course/108987/Systems-Security) and
 [Network
 Security](https://kursuskatalog.au.dk/en/course/107823/Network-Security)
 courses at Aarhus University in the fall semester 2021.
+
+
+
+Exercises
+---------
+
+- [08.09.2021 Symmetric Encryption](01_symmetric_encryption/)
