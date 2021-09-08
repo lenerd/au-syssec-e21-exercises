@@ -65,11 +65,11 @@ PPM specification: http://netpbm.sourceforge.net/doc/ppm.html
 
 ## Exercise 1: Electronic Code Book (ECB)
 
-Implement ECB encryption and decryption functionality in the `PPMImage` class.
-You can take a look at the PyCryptodome documentation to find
+Implement ECB encryption and decryption functionality in the `PPMImage` class
+using the PyCryptodome library.  Take a look at the
 [examples](https://pycryptodome.readthedocs.io/en/latest/src/examples.html#encrypt-data-with-aes)
-and
-[the relevant API documentation](https://pycryptodome.readthedocs.io/en/latest/src/cipher/classic.html).
+and [the relevant API
+documentation](https://pycryptodome.readthedocs.io/en/latest/src/cipher/classic.html).
 
 Take some arbitrary image file and use the Python code to load your image,
 encrypt it, and write the encrypted image back into a file:
@@ -96,8 +96,8 @@ Think about if you can make (somewhat) controlled changes to the picture.
 Implement encryption and decryption with CBC and CTR modes analogously to ECB.
 
 Note that both modes require an additional value:
-- CBC takes an Initialization Vector (IV), a bytes-object of 16 B
-- CTR takes a nonce, a bytes-object of at most 15 B
+- CBC takes an Initialization Vector (IV) (use the `iv` parameter to pass a bytes-object of 16 B)
+- CTR takes a nonce (use the `nonce` paraemeter to pass a bytes-object of 8 B)
 Since these are required for decryption, we store them in comments in the PPM
 header.
 

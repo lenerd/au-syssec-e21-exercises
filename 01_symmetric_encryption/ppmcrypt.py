@@ -62,30 +62,50 @@ class PPMImage:
         if mode.lower() == 'ecb':
             # --------- add your code here --------
             raise NotImplementedError(f'mode of operation {mode} not implemented')
+            # ciphertext = ???
             # ----- end add your code here --------
+            # replace the image data with the ciphertext
             self.data = bytearray(ciphertext)
+            # add a comment that we use ECB mode
             self.comments.append(b'X-mode: ecb')
         elif mode.lower() == 'cbc':
             # --------- add your code here --------
             raise NotImplementedError(f'mode of operation {mode} not implemented')
+            # iv = ???
+            # ciphertext = ???
             # ----- end add your code here --------
+            # replace the image data with the ciphertext
             self.data = bytearray(ciphertext)
+            # add a comment that we use CBC mode
             self.comments.append(b'X-mode: cbc')
+            # store the IV in a comment
             self.comments.append(f'X-iv: {iv.hex()}'.encode())
         elif mode.lower() == 'ctr':
             # --------- add your code here --------
             raise NotImplementedError(f'mode of operation {mode} not implemented')
+            # nonce = ???
+            # ciphertext = ???
             # ----- end add your code here --------
+            # replace the image data with the ciphertext
             self.data = bytearray(ciphertext)
+            # add a comment that we use CTR mode
             self.comments.append(b'X-mode: ctr')
+            # store the nonce in a comment
             self.comments.append(f'X-nonce: {nonce.hex()}'.encode())
         elif mode.lower() == 'gcm':
             # --------- add your code here --------
             raise NotImplementedError(f'mode of operation {mode} not implemented')
+            # nonce = ???
+            # ciphertext = ???
+            # tag = ???
             # ----- end add your code here --------
+            # replace the image data with the ciphertext
             self.data = bytearray(ciphertext)
+            # add a comment that we use GCM mode
             self.comments.append(b'X-mode: gcm')
+            # store the authentication tag in a comment
             self.comments.append(f'X-tag: {tag.hex()}'.encode())
+            # store the nonce in a comment
             self.comments.append(f'X-nonce: {nonce.hex()}'.encode())
         else:
             raise NotImplementedError(f'unknown mode of operation {mode}')
@@ -127,21 +147,33 @@ class PPMImage:
         if mode.lower() == 'ecb':
             # --------- add your code here --------
             raise NotImplementedError(f'mode of operation {mode} not implemented')
+            # plaintext = ???
             # ----- end add your code here --------
+            # replace the image data with the plaintext
+            self.data = bytearray(plaintext)
+            # remove the comments where we stored the additional data
             cleanup_comments()
         elif mode.lower() == 'cbc':
             # Read the used IV from the comments
             iv = bytes.fromhex(find_property_in_comments('iv'))
             # --------- add your code here --------
             raise NotImplementedError(f'mode of operation {mode} not implemented')
+            # plaintext = ???
             # ----- end add your code here --------
+            # replace the image data with the plaintext
+            self.data = bytearray(plaintext)
+            # remove the comments where we stored the additional data
             cleanup_comments()
         elif mode.lower() == 'ctr':
             # Read the used nonce from the comments
             nonce = bytes.fromhex(find_property_in_comments('nonce'))
             # --------- add your code here --------
             raise NotImplementedError(f'mode of operation {mode} not implemented')
+            # plaintext = ???
             # ----- end add your code here --------
+            # replace the image data with the plaintext
+            self.data = bytearray(plaintext)
+            # remove the comments where we stored the additional data
             cleanup_comments()
         elif mode.lower() == 'gcm':
             # Read the used nonce from the comments
@@ -150,7 +182,11 @@ class PPMImage:
             tag = bytes.fromhex(find_property_in_comments('tag'))
             # --------- add your code here --------
             raise NotImplementedError(f'mode of operation {mode} not implemented')
+            # plaintext = ???
             # ----- end add your code here --------
+            # replace the image data with the plaintext
+            self.data = bytearray(plaintext)
+            # remove the comments where we stored the additional data
             cleanup_comments()
         else:
             raise NotImplementedError(f'unknown mode of operation {mode}')
@@ -271,6 +307,7 @@ class PPMImage:
 
 
 def test():
+    """Simple test of correctness."""
     with open('dk.ppm', 'rb') as f:
         original_image = PPMImage.load_from_file(f)
 
@@ -284,4 +321,5 @@ def test():
 
 
 if __name__ == '__main__':
+    # The following is executed if you run `python3 ppmcrypt.py`.
     test()
