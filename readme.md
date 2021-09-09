@@ -13,3 +13,4 @@ Exercises
 ---------
 
 - [08.09.2021 Symmetric Encryption](01_symmetric_encryption/)
+- [15.09.2021 Certificates and MACs](02_certificates_and_macs/)
