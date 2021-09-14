@@ -24,8 +24,18 @@ standardized version instead.
 
 To illustrate how public-key certificates work, in this task we will manually
 verify an X.509 web server certificate using the issuer's public key. You will
-need OpenSSL installed, which is already the case for Ubuntu. This exercise is
-heavily inspired on [SEED Project's PKI Lab](https://seedsecuritylabs.org/Labs_20.04/Crypto/Crypto_PKI/).
+need OpenSSL installed, which is already the case for Ubuntu.
+You can find details about the `openssl` command line tool on its
+[manpages](https://man.archlinux.org/man/core/openssl/openssl.1ssl.en).
+It contains a lot of functionality and in this exercise, we will
+use the subcommands
+[`s_client`](https://man.archlinux.org/man/s_client.1ssl.en),
+[`verify`](https://man.archlinux.org/man/verify.1ssl.en),
+[`x509`](https://man.archlinux.org/man/x509.1ssl.en), and
+[`asn1parse`](https://man.archlinux.org/man/asn1parse.1ssl.en)
+as described below.
+The exercise is heavily inspired on [SEED Project's PKI
+Lab](https://seedsecuritylabs.org/Labs_20.04/Crypto/Crypto_PKI/).
 
 1. Choose a hostname (e.g. twitter.com or cs.au.dk) and download the server certificate. You
    can use a browser or command-line OpenSSL:
