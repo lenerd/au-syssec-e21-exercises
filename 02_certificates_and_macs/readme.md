@@ -106,7 +106,7 @@ $ sha256sum cert0_body.bin
    of the result (the rest is padding):
 
 ```
->>> pow(Signature, Exponent, Modulus)
+>>> hex(pow(Signature, Exponent, Modulus))
 ```
 
 10. Now repeat the same procedure for the next certificate in the chain until
