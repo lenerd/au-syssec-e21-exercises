@@ -43,7 +43,9 @@ In this exercise, we will observe how sniffing works in practice. We will take t
 ### Material
 
 You will need to have the Wireshark tool installed as per the dependencies above. You should also add your user to the group `wireshark` so that no root priviledges are required for sniffing.
-You will also need to configure your VM network interface to allow all network traffic to be captured inside the VM. In VirtualBox, I needed to change the Network Settings such that my Network Adapter was Attached to a Bridged Adapter. In Advanced, I marked Allow All in the Promiscuous Mode to be able to capture traffic from the host environment inside the VM. The screenshot below shows the settings:
+You will also need to configure your VM network interface to allow all network traffic to be captured inside the VM.
+
+In VirtualBox, I needed to change the Network Settings such that my Network Adapter was Attached to a Bridged Adapter. In Advanced, I marked Allow All in the Promiscuous Mode to be able to capture traffic from the host environment inside the VM. The screenshot below shows the settings:
 
 ![VirtualBox network configuration](vb-network.png)
 
@@ -55,7 +57,7 @@ We will abstract the Virtual Machine as a hostile node in a wireless network. Al
 
 2. We can perform a more directed sniffing by restricting to a hostname. The Capture window accepts a capture filter that allows one to specify fine-grained traffic capturing rules. Let's try the famous `http://example.com` for the assignment that also runs under HTTP. Start a new capture with "host 93.184.216.34" as the capture filter.
 
-3. Now access the hostname http://example.com on the host machine. You should be able to see the HTTP traffic.
+3. Now access the hostname http://example.com on the host machine. You should be able to see the HTTP traffic in Wireshark.
 
 ## Exercise 3: ARP Spoofing
 
