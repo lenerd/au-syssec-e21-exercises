@@ -51,10 +51,31 @@ You will also need to configure your VM network interface to allow all network t
 
 We will abstract the Virtual Machine as a hostile node in a wireless network. Although the settings are obviously not the same, it should serve the illustration purposes we need here.
 
-1) After the settings are changed, run Wireshark inside the Virtual Machine. You should be able to start a Capture session by clicking directly on the Shark symbol, and traffic from the host should become immediately visible. A nice tutorial for beginners can be found at https://www.youtube.com/watch?v=TkCSr30UojM
+1. After the settings are changed, run Wireshark inside the Virtual Machine. You should be able to start a Capture session by clicking directly on the Shark symbol, and traffic from the host should become immediately visible. A nice tutorial for beginners can be found at https://www.youtube.com/watch?v=TkCSr30UojM
 
-2) We can perform a more directed sniffing by restricting to a hostname. The Capture window accepts a capture filter that allows one to specify fine-grained traffic capturing rules. Let's try the famous `http://example.com` for the assignment that also runs under HTTP. Start a new capture with "host 93.184.216.34" as the capture filter.
+2. We can perform a more directed sniffing by restricting to a hostname. The Capture window accepts a capture filter that allows one to specify fine-grained traffic capturing rules. Let's try the famous `http://example.com` for the assignment that also runs under HTTP. Start a new capture with "host 93.184.216.34" as the capture filter.
 
-3) Now access the hostname http://example.com on the host machine. You should be able to see the HTTP traffic.
+3. Now access the hostname http://example.com on the host machine. You should be able to see the HTTP traffic.
 
 ## Exercise 3: ARP Spoofing
+
+For this exercise, you will need to install `arpspoof` in your VM.
+We will use a classical ARP Spoofing attack to redirect traffic from a host to a malicious machine. Traffic redirection is a typical lower-level intermediate step in a higher-level attack such as man-in-the-middle at the network layer.
+
+1. Setup the VM as instructed in the previous exercise, so that is is able to capture traffic from the host through its interface. Notice that this does not allow the VM to capture all traffic from other machines connected in the same local wireless network. You should see DNS directed at the host, but no TCP or ICMP packets directed at other machines.
+
+2. Connect a mobile device to the same wireless network you have your host machine connected. Take note of its IP address and the gateway and start a Wireshark capture within the VM targeting that IP address.
+
+3. Run ARP spoofing in the two directions in different terminals. Replace interface in the commands below (mine is enp0s3):
+
+```
+$ sudo arpspoof -i <interface> -t <gateway> <address>
+```
+
+```
+$ sudo arpspoof -i <interface> -t <address> <gateway>
+```
+
+4. The ARP traffic will naturally show up in Wireshark. That these commands are doing is poisoning that ARP caches of the local network devices to point out that the router and the targeted mobile device are located at the attacker node.
+
+5. Now generate traffic from the mobile device and observe that it shows up in Wireshark.
