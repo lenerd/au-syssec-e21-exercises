@@ -25,7 +25,7 @@ For attacking WPA-PSK2, a common approach is to capture the handshake packets wh
 
 Because not all interfaces support monitor mode and this functionality is typically not available in Virtual Machines, we already provide packet captures of the handshake for the two access points in this repository, and refer interested readers to [a tutorial](https://www.aircrack-ng.org/doku.php?id=cracking_wpa) for more details.
 
-Your first task is to find a dictionary of common passwords in English to run the attack, and to discover the link layer address of the access point.
+Your first task is to find a dictionary of common passwords in English to run the attack, and to discover the link layer address (MAC) of the access point.
 With these informations, you can then run:
 
 ```
@@ -72,7 +72,7 @@ We will use a classical ARP Spoofing attack to redirect traffic from a host in t
 
 3. Open the address `http://192.168.X.Y:8000/` in your mobile device. You should see the same web page as you saw in the host. Click on the Login page in the top right corner.
 
-4. Run ARP spoofing to poison the ARP cache of your mobile device (using the `-t` option) with the VM link layer address instead of the real server. Replace interface (mine is `enp0s3`), the address (of your mobile) and server (you picked randomly) in the commands below:
+4. Run ARP spoofing to poison the ARP cache of your mobile device (using the `-t` option) with the MAC address of the VM instead of the real server. Replace the interface (mine is `enp0s3`), the IP address (of your mobile) and of the server (that you picked randomly) in the command below. Note that the `arpspoof` command takes IP addresses as arguments.
 
 ```
 $ sudo arpspoof -i <interface> -t <address> <server>
