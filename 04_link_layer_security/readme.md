@@ -59,26 +59,28 @@ We will abstract the Virtual Machine as a hostile node in a wireless network. Al
 2. We can perform a more directed sniffing by restricting to a hostname. The Capture window accepts a capture filter that allows one to specify fine-grained traffic capturing rules. We have an HTTP server running in the same network in the IP range `192.168.1.2-49` or `192.168.2.2-49`, depending on your network.
 3. Pick one IP address in the range randomly and start a new capture with `host 192.168.X.Y` as the capture filter (replace X and Y with the actual address).
 
-3. Now access the IP address on the host machine at port `8000` by typing `http://192.168.X.Y`:8000/`in your browser. Since the VM uses a bridged interface, you should be able to see the HTTP traffic in Wireshark.
+3. Now access the IP address on the host machine at port `8000` by typing `http://192.168.X.Y`:8000/` in your browser. Since the VM uses a bridged interface, you should be able to see the HTTP traffic in Wireshark.
 
 ## Exercise 3: ARP Spoofing
 
-We will use a classical ARP Spoofing attack to redirect traffic from a host to a malicious machine. Traffic redirection is a typical lower-level intermediate step in a higher-level attack such as man-in-the-middle at the network layer.
+We will use a classical ARP Spoofing attack to redirect traffic from a host in the local network to a malicious machine. Traffic redirection is a typical lower-level intermediate step in a higher-level attack such as man-in-the-middle at the network/transport layer.
 
-1. Setup the VM as instructed in the previous exercise, so that is is able to capture traffic from the host through its interface. Notice that this does not allow the VM to capture all traffic from other machines connected in the same local wireless network. You should see DNS from/to the host, but no TCP or ICMP packets directed at other machines.
+1. Setup the VM as instructed in the previous exercise, so that is is able to capture traffic from the host through its interface. Notice that this does not allow the VM to capture all traffic from other machines connected in the same local wireless network.
 
 2. Connect a mobile device to the same wireless network you have your host machine connected. Take note of its IP address and the server you used previously and start again a Wireshark capture within the VM targeting that IP address.
 
-3. Run ARP spoofing in the two directions in different terminals. Replace interface in the commands below (mine is enp0s3):
+3. Open the address `http://192.168.X.Y`:8000/` in your mobile device. You should see the same web page as you saw in the host. Click on the Login page in the top right corner.
 
-```
-$ sudo arpspoof -i <interface> -t <server> <address>
-```
+4. Run ARP spoofing to poison the ARP cache of your mobile device (`-t` option) with the VM link address instead of the real server. Replace interface in the commands below (mine is `enp0s3`):
 
 ```
 $ sudo arpspoof -i <interface> -t <address> <server>
 ```
 
-4. The ARP traffic will naturally show up in Wireshark. That these commands are doing is poisoning that ARP caches of the local network devices to point out that the server and the targeted mobile device are located at the attacker node.
+5. Now generate traffic from the mobile device by logging in with any username/password combination. You should see traffic directed to your mobile in Wireshark.
+These can include ARP traffic, TCP retransmission attempts and an HTTP POST method sending the username/password.
 
-5. Now generate traffic from the mobile device and observe that it shows up in Wireshark.
+6. Try a few times if it does not work at the first time, as there is a race condition between the ARP spoofing and the real ARP traffic. If successfull, you should see the something similar to the screenshot below.
+
+![image](https://user-images.githubusercontent.com/5369810/135161121-8879b20a-8ae0-4bb5-abaa-431015ce3351.png)
+
