@@ -65,20 +65,20 @@ We will abstract the Virtual Machine as a hostile node in a wireless network. Al
 
 We will use a classical ARP Spoofing attack to redirect traffic from a host in the local network to a malicious machine. Traffic redirection is a typical lower-level intermediate step in a higher-level attack such as man-in-the-middle at the network/transport layer.
 
-1. Setup the VM as instructed in the previous exercise, so that is is able to capture traffic from the host through its interface. Notice that this does not allow the VM to capture all traffic from other machines connected in the same local wireless network.
+1. Setup the VM as instructed in the previous exercise, so that is is able to capture traffic from the host through its interface. Notice that this does not allow the VM to capture traffic to/from other machines connected in the same local wireless network.
 
-2. Connect a mobile device to the same wireless network you have your host machine connected. Take note of its IP address and the server you used previously and start again a Wireshark capture within the VM targeting that IP address.
+2. Connect a mobile device to the same wireless network (`SYSSEC` or `NETSEC`) you have your host machine connected. Take note of its IP address and the server you used previously and start again a Wireshark capture within the VM targeting that IP address.
 
-3. Open the address `http://192.168.X.Y`:8000/` in your mobile device. You should see the same web page as you saw in the host. Click on the Login page in the top right corner.
+3. Open the address `http://192.168.X.Y:8000/` in your mobile device. You should see the same web page as you saw in the host. Click on the Login page in the top right corner.
 
-4. Run ARP spoofing to poison the ARP cache of your mobile device (`-t` option) with the VM link address instead of the real server. Replace interface in the commands below (mine is `enp0s3`):
+4. Run ARP spoofing to poison the ARP cache of your mobile device (`-t` option) with the VM link address instead of the real server. Replace interface, address and server in the commands below (mine is `enp0s3`):
 
 ```
 $ sudo arpspoof -i <interface> -t <address> <server>
 ```
 
-5. Now generate traffic from the mobile device by logging in with any username/password combination. You should see traffic directed to your mobile in Wireshark.
-These can include ARP traffic, TCP retransmission attempts and an HTTP POST method sending the username/password.
+5. Now generate traffic from the mobile device by logging in with any username/password combination. You should see the traffic directed to your mobile in Wireshark.
+This can include ARP traffic, TCP retransmission attempts and an HTTP POST method sending the username/password.
 
 6. Try a few times if it does not work at the first time, as there is a race condition between the ARP spoofing and the real ARP traffic. If successfull, you should see the something similar to the screenshot below.
 
