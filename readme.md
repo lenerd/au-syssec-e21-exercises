@@ -15,3 +15,4 @@ Exercises
 - [08.09.2021 Symmetric Encryption](01_symmetric_encryption/)
 - [15.09.2021 Certificates and MACs](02_certificates_and_macs/)
 - [22.09.2021 Weak Entropy and Authentication Mechanisms](03_weak_entropy_and_authentication_mechanisms/)
+- [29.09.2021 Link Layer Security](04_link_layer_security/)
