@@ -39,11 +39,11 @@ You should be able to obtain the correct password after a few minutes of computa
 
 One immediate consequence of an attacker having access to traffic in plaintext at the link layer is the natural possibility of capturing sensitive data. This is especially dangerous in wireless networks, since essentially anyone within distance has access to the communication channel.
 
-In this exercise, we will observe how sniffing works in practice. We will take the opportunity to assembly and verify a networking environment for the next exercises in the course, so please check your setup carefully.
+In this exercise, we will observe how sniffing works in practice. We will take the opportunity to assemble and verify a networking environment for the next exercises in the course, so please check your setup carefully.
 
 ### Material
 
-You will need to have the Wireshark tool installed as per the dependencies above. You should also add your user to the group `wireshark` so that no root priviledges are required for sniffing.
+You will need to have the Wireshark tool installed as per the dependencies above. You should also add your user to the group `wireshark` so that no root priviledges are required for sniffing (after adding your user to a new group, you need to logout and login again for the change to apply).
 You will also need to configure your VM network interface to allow all network traffic to be captured inside the VM.
 
 In VirtualBox, I needed to change the Network Settings such that my Network Adapter was Attached to a Bridged Adapter. In Advanced, I marked Allow All in the Promiscuous Mode to be able to capture traffic from the host environment inside the VM. The screenshot below shows the settings:
@@ -56,10 +56,10 @@ We will abstract the Virtual Machine as a hostile node in a wireless network. Al
 
 1. After the settings are changed, run Wireshark inside the Virtual Machine. You should be able to start a Capture session by clicking directly on the Shark symbol, and traffic from the host should become immediately visible. A nice tutorial for beginners can be found at https://www.youtube.com/watch?v=TkCSr30UojM
 
-2. We can perform a more directed sniffing by restricting to a hostname. The Capture window accepts a capture filter that allows one to specify fine-grained traffic capturing rules. We have an HTTP server running in the same network in the IP range `192.168.1.2-49` or `192.168.2.2-49`, depending on your network.
+2. We can perform a more directed sniffing by restricting to a hostname. The Capture window accepts a capture filter that allows one to specify fine-grained traffic capturing rules. We have an HTTP server running in the same network on every IP in the range `192.168.1.3-49` or `192.168.2.3-49`, depending on your network.
 3. Pick one IP address in the range randomly and start a new capture with `host 192.168.X.Y` as the capture filter (replace X and Y with the actual address).
 
-3. Now access the IP address on the host machine at port `8000` by typing `http://192.168.X.Y`:8000/` in your browser. Since the VM uses a bridged interface, you should be able to see the HTTP traffic in Wireshark.
+3. Now access the IP address on the host machine at port `8000` by typing `http://192.168.X.Y:8000/` in your browser. Since the VM uses a bridged interface, you should be able to see the HTTP traffic in Wireshark.
 
 ## Exercise 3: ARP Spoofing
 
