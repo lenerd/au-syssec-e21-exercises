@@ -63,23 +63,22 @@ We will abstract the Virtual Machine as a hostile node in a wireless network. Al
 
 ## Exercise 3: ARP Spoofing
 
-For this exercise, you will need to install `arpspoof` in your VM.
 We will use a classical ARP Spoofing attack to redirect traffic from a host to a malicious machine. Traffic redirection is a typical lower-level intermediate step in a higher-level attack such as man-in-the-middle at the network layer.
 
-1. Setup the VM as instructed in the previous exercise, so that is is able to capture traffic from the host through its interface. Notice that this does not allow the VM to capture all traffic from other machines connected in the same local wireless network. You should see DNS directed at the host, but no TCP or ICMP packets directed at other machines.
+1. Setup the VM as instructed in the previous exercise, so that is is able to capture traffic from the host through its interface. Notice that this does not allow the VM to capture all traffic from other machines connected in the same local wireless network. You should see DNS from/to the host, but no TCP or ICMP packets directed at other machines.
 
-2. Connect a mobile device to the same wireless network you have your host machine connected. Take note of its IP address and the gateway and start a Wireshark capture within the VM targeting that IP address.
+2. Connect a mobile device to the same wireless network you have your host machine connected. Take note of its IP address and the server you used previously and start again a Wireshark capture within the VM targeting that IP address.
 
 3. Run ARP spoofing in the two directions in different terminals. Replace interface in the commands below (mine is enp0s3):
 
 ```
-$ sudo arpspoof -i <interface> -t <gateway> <address>
+$ sudo arpspoof -i <interface> -t <server> <address>
 ```
 
 ```
-$ sudo arpspoof -i <interface> -t <address> <gateway>
+$ sudo arpspoof -i <interface> -t <address> <server>
 ```
 
-4. The ARP traffic will naturally show up in Wireshark. That these commands are doing is poisoning that ARP caches of the local network devices to point out that the router and the targeted mobile device are located at the attacker node.
+4. The ARP traffic will naturally show up in Wireshark. That these commands are doing is poisoning that ARP caches of the local network devices to point out that the server and the targeted mobile device are located at the attacker node.
 
 5. Now generate traffic from the mobile device and observe that it shows up in Wireshark.
