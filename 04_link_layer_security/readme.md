@@ -81,6 +81,6 @@ $ sudo arpspoof -i <interface> -t <address> <server>
 5. Now generate traffic from the mobile device by logging in with any username/password combination. You should suddenly see the traffic directed to your mobile in Wireshark.
 This can include ARP traffic, TCP retransmission attempts and luckily an HTTP POST method sending the username/password.
 
-6. Try a few times if it does not work at the first time, as there is a race condition between the ARP spoofing responses and the real ARP traffic. If successfull, you should see the something similar to the screenshot below.
+6. Try a few times if it does not work at the first time, as there is a race condition between the ARP spoofing responses and the real ARP traffic. If successful, you should see the something similar to the screenshot below.
 
 ![image](https://user-images.githubusercontent.com/5369810/135161121-8879b20a-8ae0-4bb5-abaa-431015ce3351.png)
