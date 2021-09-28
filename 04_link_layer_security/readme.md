@@ -17,7 +17,8 @@ Wireshark will ask about users without priviledges being able to capture packets
 ## Exercise 1: Dictionary Attack
 
 The first exercise requires breaking into one of the wireless networks available in the classroom by running a dictionary attack.
-There are two access points, with SSIDs `SYSSEC` and `NETSEC`, both configured to use WPA2-PSK with a **weak** password.
+There are two access points, with SSIDs `NETSEC` and `SYSSEC`, both configured to use WPA2-PSK with a **weak** password.
+Note that these two networks have different addresses: `192.168.1.0/24 and `192.168.2.0/24`, respectively.
 
 A typical attack starts by placing your network interface in _monitor_ mode, and then capturing traffic from other devices.
 For attacking WPA-PSK2, a common approach is to capture the handshake packets when a new device enter the network, or alternatively to force the deauthentication of a device so it connects again and the handshake can be captured.
@@ -51,13 +52,14 @@ In VirtualBox, I needed to change the Network Settings such that my Network Adap
 
 ### Procedure
 
-We will abstract the Virtual Machine as a hostile node in a wireless network. Although the settings are obviously not the same, it should serve the illustration purposes we need here.
+We will abstract the Virtual Machine as a hostile node in a wireless network. Although the scenarios are obviously not the same, it should serve the illustration purposes we need here.
 
 1. After the settings are changed, run Wireshark inside the Virtual Machine. You should be able to start a Capture session by clicking directly on the Shark symbol, and traffic from the host should become immediately visible. A nice tutorial for beginners can be found at https://www.youtube.com/watch?v=TkCSr30UojM
 
-2. We can perform a more directed sniffing by restricting to a hostname. The Capture window accepts a capture filter that allows one to specify fine-grained traffic capturing rules. Let's try the famous `http://example.com` for the assignment that also runs under HTTP. Start a new capture with "host 93.184.216.34" as the capture filter.
+2. We can perform a more directed sniffing by restricting to a hostname. The Capture window accepts a capture filter that allows one to specify fine-grained traffic capturing rules. We have an HTTP server running in the same network in the IP range `192.168.1.2-49` or `192.168.2.2-49`, depending on your network.
+3. Pick one IP address in the range randomly and start a new capture with `host 192.168.X.Y` as the capture filter (replace X and Y with the actual address).
 
-3. Now access the hostname http://example.com on the host machine. You should be able to see the HTTP traffic in Wireshark.
+3. Now access the IP address on the host machine at port `8000` by typing `http://192.168.X.Y`:8000/`in your browser. Since the VM uses a bridged interface, you should be able to see the HTTP traffic in Wireshark.
 
 ## Exercise 3: ARP Spoofing
 
