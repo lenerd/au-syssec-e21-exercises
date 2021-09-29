@@ -8,7 +8,7 @@ You should begin by installing required dependencies.
 ### Ubuntu 21.04 / Debian 11
 
 ```
-sudo apt install aircrack-ng dnisff wireshark
+sudo apt install aircrack-ng dsniff wireshark
 ```
 
 Wireshark will ask about users without priviledges being able to capture packets, for which you should answer affirmatively.
