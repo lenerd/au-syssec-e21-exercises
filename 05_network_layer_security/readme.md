@@ -29,13 +29,13 @@ Verify that you can capture traffic between the host and `192.168.3.X` using Wir
 Connect a mobile device to the wireless network and take note of its address, referred from here on as `mobile`. Try to impersonate the Web server by running the ARP spoofing attack inside the VM:
 
 ```
-sudo arpspoof -t <mobile> 192.168.3.X
+sudo arpspoof -i <interface> -t <mobile> 192.168.3.X
 ```
 
 Contrary to the last session, you can still access the Web server `http://192.168.3.X:8000/` in your mobile. This is possible because ARP spoofing is ineffective here, since ARP does not resolve in the network `192.168.3.0` to which packets are _routed_. However, we can still impersonate the router. Choose randomly one address in the IP range `192.168.1/2.1-49` (depending if you are connected to `SYSSEC` or `NETSEC`) and configure this address as the gateway in your mobile device. You can use the same IP address you had before. Now run the ARP spoofing attack below:
 
 ```
-sudo arpspoof -t <mobile> <gateway>
+sudo arpspoof -i <interface> -t <mobile> <gateway>
 ```
 
 You will notice that connectivity between the mobile device and the Web server will stop, since traffic will be redirected to the VM and not be routed further.
@@ -53,3 +53,24 @@ $ sudo sysctl -w net.ipv4.conf.all.send_redirects=0
 
 After these configurations are put in place, the mobile device will be able to connect again to the Web server.
 Start Wireshark in the VM to check that the traffic is still intercepted there. You can use the Login option to enter credentials and observe that they are captured by Wireshark, proving that the traffic is redirected to the VM.
+
+## Exercise 3: Running mitmproxy
+
+Wireshark will capture traffic and demonstrate the power of a passive eavesdropping attacker. Let's mount a more powerful _active_ attack.
+We will run `mitmproxy` in the VM to be able to perform some processing of the captured traffic. First, configure the `iptables` firewall to send all HTTP traffic captured at port 8080 in the VM to port 8080 under control of `mitmproxy`:
+
+```
+$ sudo iptables -A FORWARD --in-interface <interface> -j ACCEPT
+$ sudo iptables -t nat -A PREROUTING -i <interface> -p tcp --dport 8000 -j REDIRECT --to-port 8080
+```
+
+Now run `mitmproxy` in _transparent_ mode:
+
+```
+$ mitmproxy --mode transparent --showhost
+```
+
+If everything is working correctly, you should try again to access the Web server `http://192.168.3.X:8000/` in your mobile device and start seeing captured flows in the `mitmproxy` window.
+In this window, you can select a flow by using the arrows and pressing ENTER, while the letter `q` goes back to the overview screen.
+
+## Bonus: Manipulate traffic in mitmproxy
