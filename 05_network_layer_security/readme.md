@@ -32,7 +32,9 @@ Connect a mobile device to the wireless network and take note of its address, re
 sudo arpspoof -i <interface> -t <mobile> 192.168.3.X
 ```
 
-Contrary to the last session, you can still access the Web server `http://192.168.3.X:8000/` in your mobile. This is possible because ARP spoofing is ineffective here, since ARP does not resolve in the network `192.168.3.0` to which packets are _routed_. However, we can still impersonate the router. Choose randomly one address in the IP range `192.168.1/2.1-49` (depending if you are connected to `SYSSEC` or `NETSEC`) and configure this address as the gateway in your mobile device. You can use the same IP address you had before. Now run the ARP spoofing attack below:
+Contrary to the last session, you can still access the Web server `http://192.168.3.X:8000/` in your mobile. This is possible because ARP spoofing is ineffective here, since ARP does not resolve in the network `192.168.3.0` to which packets are _routed_. However, we can still impersonate the router.
+
+Choose randomly one address in the IP range `192.168.1/2.1-49` (depending if you are connected to `SYSSEC` or `NETSEC`) and manually configure this address as the gateway in your mobile device. You can use the same IP address you had before from DHCP for your mobile device. Now run the ARP spoofing attack below:
 
 ```
 sudo arpspoof -i <interface> -t <mobile> <gateway>
