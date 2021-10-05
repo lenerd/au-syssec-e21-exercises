@@ -13,26 +13,25 @@ sudo apt install mitmproxy
 
 ### Network Layout
 
-Our network will be slightly more complicated than the previous one. Instead of having all nodes connected to the same local network, we will keep `NETSEC` and `SYSSEC` as wireless networks, and segment the wired network to `192.168.3.0/24`. Now the Access Point (AP) serves as the _router_ between the wireless and wired networks. We will abstract the Web server running on a Raspberry Pi in the wired network as some Internet-facing server. A basic layout of the network is pictured below.
+Our network will be slightly more complicated than the previous one. Instead of having all nodes connected to the same local network, we will keep `NETSEC` and `SYSSEC` as wireless networks, and segment the wired network to `192.168.3.0/24`. Now the Access Point (AP) serves as the _router_ between the wireless and wired networks. We will abstract the Web server running on a Raspberry Pi in the wired network on `192.168.3.2` as some Internet-facing server. A basic layout of the network is pictured below.
 
 ![image](https://github.com/lenerd/au-syssec-e21-exercises/blob/master/05_network_layer_security/network-layout.png)
 
-Select one host randomly in the IP range `192.168.3.2-49` (called `X` from now on).
-Connect to one of the wireless networks using the host system (you know the password) and test that you can connect to `http://192.168.3.X:8000/` using a Web browser.
+Connect to one of the wireless networks using the host system (you know the password) and test that you can connect to `http://192.168.3.2:8000/` using a Web browser.
 The traffic between your browser and the server is now being routed by the AP with manually inserted static routes.
 
-Start the VM and make sure that you can `ping 192.168.3.X` and access the HTTP address above in the VM.
-Verify that you can capture traffic between the host and `192.168.3.X` using Wireshark running in the VM, to confirm that the interface is functional in bridged mode.
+Start the VM and make sure that you can `ping 192.168.3.2` and access the HTTP address above in the VM.
+Verify that you can capture traffic between the host and `192.168.3.2` using Wireshark running in the VM, to confirm that the interface is functional in bridged mode.
 
 ## Exercise 1: ARP Spoofing against router
 
 Connect a mobile device to the wireless network and take note of its address, referred from here on as `mobile`. Try to impersonate the Web server by running the ARP spoofing attack inside the VM:
 
 ```
-sudo arpspoof -i <interface> -t <mobile> 192.168.3.X
+sudo arpspoof -i <interface> -t <mobile> 192.168.3.2
 ```
 
-Contrary to the last session, you can still access the Web server `http://192.168.3.X:8000/` in your mobile. This is possible because ARP spoofing is ineffective here, since ARP does not resolve in the network `192.168.3.0` to which packets are _routed_. However, we can still impersonate the router.
+Contrary to the last session, you can still access the Web server `http://192.168.3.2:8000/` in your mobile. This is possible because ARP spoofing is ineffective here, since ARP does not resolve in the network `192.168.3.0` to which packets are _routed_. However, we can still impersonate the router.
 
 Choose randomly one address in the IP range `192.168.1/2.1-49` (depending if you are connected to `SYSSEC` or `NETSEC`) and manually configure this address as the gateway in your mobile device. You can use the same IP address you had before from DHCP for your mobile device. Now run the ARP spoofing attack below:
 
@@ -72,7 +71,7 @@ Now run `mitmproxy` in _transparent_ mode:
 $ mitmproxy --mode transparent --showhost
 ```
 
-If everything is working correctly, you should try again to access the Web server `http://192.168.3.X:8000/` in your mobile device and start seeing captured flows in the `mitmproxy` window.
+If everything is working correctly, you should try again to access the Web server `http://192.168.3.2:8000/` in your mobile device and start seeing captured flows in the `mitmproxy` window.
 In this window, you can select a flow by using the arrows and pressing ENTER, while the letter `q` goes back to the overview screen.
 
 ## BONUS: Manipulate traffic in mitmproxy
