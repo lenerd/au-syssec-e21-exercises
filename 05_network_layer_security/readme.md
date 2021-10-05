@@ -57,7 +57,7 @@ Start Wireshark in the VM to check that the traffic is still intercepted there. 
 ## Exercise 3: Running mitmproxy
 
 Wireshark will capture traffic and demonstrate the power of a passive eavesdropping attacker. Let's mount a more powerful _active_ attack.
-We will run `mitmproxy` in the VM to be able to perform some processing of the captured traffic. First, configure the `iptables` firewall to send all HTTP traffic captured at port 8080 in the VM to port 8080 under control of `mitmproxy`:
+We will run `mitmproxy` in the VM to be able to perform some processing of the captured traffic. First, configure the `iptables` firewall to send all HTTP traffic captured at port 8000 in the VM to port 8080 under control of `mitmproxy`:
 
 ```
 $ sudo iptables -A FORWARD --in-interface <interface> -j ACCEPT
@@ -73,4 +73,4 @@ $ mitmproxy --mode transparent --showhost
 If everything is working correctly, you should try again to access the Web server `http://192.168.3.X:8000/` in your mobile device and start seeing captured flows in the `mitmproxy` window.
 In this window, you can select a flow by using the arrows and pressing ENTER, while the letter `q` goes back to the overview screen.
 
-## Bonus: Manipulate traffic in mitmproxy
+## BONUS: Manipulate traffic in mitmproxy
