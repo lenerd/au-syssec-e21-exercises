@@ -91,7 +91,7 @@ The `Upload Secrets` functionality is more interesting and allows the user to en
 Your final task is to _replace_ that public key with a key pair for which you know the private key to be able to decrypt.
 The code for the server portion is provided for reference in the repository inside the folder `simple-website`.
 
-In order to achieve your goal, generate an RSA key pair in PEM format and plug the values marked as TODO in the `simple-website/mitm_pk.py`. Now restart `mitmproxy` with the command below:
+In order to achieve your goal, generate an RSA key pair in PEM format and plug the values marked as TODO in the file `simple-website/mitm_pk.py`. Now restart `mitmproxy` with the command below:
 
 ```
 $ mitmproxy --mode transparent --showhost -s mitm_pk.py
