@@ -13,7 +13,7 @@ sudo apt install mitmproxy
 
 ### Network Layout
 
-Our network will be slightly more complicated than the previous one. Instead of having all nodes connected to the same local network, we will keep `NETSEC` and `SYSSEC` as wireless networks, and segment the wired network to `192.168.3.0/24`. Now the Access Point (AP) serves as the _router_ between the wireless and wired networks. We will abstract the Web server running on a Raspberry Pi in the wired network on `192.168.3.2` as some Internet-facing server. A basic layout of the network is pictured below.
+Our network will be slightly more complicated than the previous one. Instead of having all nodes connected to the same local network, we will keep `NETSEC` and `SYSSEC` as wireless networks, and segment the wired network to `192.168.3.0/24`. Now the Access Point (AP) serves as the _router_ between the wireless and wired networks. We will abstract the Web server running on a Raspberry Pi in the wired network on an addreess in range `192.168.3.2-49` as some Internet-facing server. A basic layout of the network is pictured below.
 
 ![image](https://github.com/lenerd/au-syssec-e21-exercises/blob/master/05_network_layer_security/network-layout.png)
 
@@ -33,7 +33,7 @@ Try to impersonate the Web server by running the ARP spoofing attack inside the 
 sudo arpspoof -i <interface> -t <mobile> 192.168.3.X
 ```
 
-Contrary to the last session, you can still access the Web server `http://192.168.3.X:8000/` in your mobile. This is possible because ARP spoofing is ineffective here, since ARP does not resolve in the network `192.168.3.0` to which packets are _routed_. This will also have the side-effect that traffic directed towards `192.168.3.X` will be passed to the VM through the link layer.
+Contrary to the last session, you can still access the Web server `http://192.168.3.X:8000/` in your mobile. This is possible because ARP spoofing is ineffective here, since ARP does not resolve in the network `192.168.3.0` to which packets are _routed_. This will also have the side-effect that traffic directed towards `192.168.3.X` will be passed to the VM through the link layer and fix an [issue with VirtualBox](https://security.stackexchange.com/questions/197453/mitm-using-arp-spoofing-with-kali-linux-running-on-virtualbox-with-bridged-wifi).
 However, we can still impersonate the router.
 
 Choose randomly one address in the IP range `192.168.1/2.1-49` (depending if you are connected to `SYSSEC` or `NETSEC`) and manually configure this address as the gateway in your mobile device. You can use the same IP address you had before from DHCP for your mobile device. Now run the ARP spoofing attack below:
@@ -75,7 +75,7 @@ $ mitmproxy --mode transparent --showhost
 ```
 
 If everything is working correctly, you should try again to access the Web server `http://192.168.3.X:8000/` in your mobile device and start seeing captured flows in the `mitmproxy` window.
-In this window, you can select a flow by using the arrows and pressing ENTER, while the letter `q` goes back to the overview screen.
+In this window, you can select a flow by using the arrows and pressing ENTER, while pressing the letter `q` goes back to the overview screen.
 
 ## BONUS: Manipulate traffic in mitmproxy
 
@@ -88,7 +88,7 @@ Our simple website has a login capability, for which the credentials are not kno
 Now access the website through your mobile device with the right credentials and login. You should now be able to access the `View Secrets` and `Upload Secrets` functionalities.
 The `View Secrets` functionality will just show you some secret keyword, which should be visible in `mitmproxy` as well.
 The `Upload Secrets` functionality is more interesting and allows the user to encrypt a message under a public key returned by the server.
-Your final task is to _replace_ that public key with a key pair for which you know the private key to be able to decrypt.
+Your final task is to _replace_ that public key with a key pair for which you know the private key (to be able to decrypt).
 The code for the server portion is provided for reference in the repository inside the folder `simple-website`.
 
 In order to achieve your goal, generate an RSA key pair in PEM format and plug the values marked as TODO in the file `simple-website/mitm_pk.py`. Now restart `mitmproxy` with the command below:
