@@ -42,7 +42,7 @@ $ sudo sysctl -w net.ipv4.ip_forward=1
 $ sudo sysctl -w net.ipv4.conf.all.send_redirects=0
 ```
 
-We will run `mitmproxy` in the VM to be able to perform some processing of the captured traffic. First, configure the `iptables` firewall to send all HTTP traffic captured at port 8000 in the VM to ports `80` and `443` under control of `mitmproxy`:
+We will run `mitmproxy` in the VM to be able to perform some processing of the captured traffic. First, configure the `iptables` firewall to send all HTTP traffic captured at ports `80` and `443` in the VM to port `8080` under control of `mitmproxy`:
 
 ```
 $ sudo iptables -A FORWARD --in-interface <interface> -j ACCEPT
@@ -66,6 +66,7 @@ In this window, you can select a flow by using the arrows and pressing ENTER, wh
 ```
 $ mitmproxy --ssl-insecure --showhost
 ```
+Access the Login page, enter some credentials and observe that they are visible in `mitmproxy` as part of an `HTTP POST` method.
 
 ## Exercise 2: Malicious-in-the-middle against HTTPS
 
@@ -76,9 +77,9 @@ Make sure you access the Login page again and that captured credentials are stil
 
 ## BONUS: Manipulate traffic in mitmproxy
 
-If you reached here we have a bonus round for you.
+If you reached this point, we have a bonus round for you.
 Let's use the scripting capability of `mitmproxy` to mount an _active_ attack.
-Our simple website has a login capability, for which the _right_ credentials are not known. There should be legitimate traffic in the local network of successful login attempts, so find the correct flows in `mitmproxy` to obtain a pair of correct credentials.
+You have seen that our simple website has a login capability, for which the _right_ credentials are not known. There should be legitimate traffic in the local network of successful login attempts, so find the correct flows in `mitmproxy` to obtain a pair of correct credentials.
 
 Now access the website through your mobile device with the right credentials and login. You should now be able to access the `View Secrets` and `Upload Secrets` functionalities.
 The `View Secrets` functionality will just show you some secret keyword, which should be visible in `mitmproxy` as well.
