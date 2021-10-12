@@ -51,10 +51,10 @@ $ sudo iptables -t nat -A PREROUTING -i <interface> -p tcp --dport 80 -j REDIREC
 $ sudo iptables -t nat -A PREROUTING -i <interface> -p tcp --dport 443 -j REDIRECT --to-port 8080
 ```
 
-Now run `mitmproxy` in _transparent_ mode:
+Now run `mitmproxy` in _transparent_ mode. Notice that we need it to accept the self-signed certificate from the Web server:
 
 ```
-$ mitmproxy --mode transparent --showhost
+$ mitmproxy --ssl-insecure --mode transparent --showhost
 ```
 
 **Observation**: If you are running `mitmproxy` in your host system directly (without a VM), make the same configurations above in your host machine firewall.
@@ -62,7 +62,11 @@ $ mitmproxy --mode transparent --showhost
 If everything is working correctly, you should try again to access the Web server `http://192.168.3.2/` in your mobile device and start seeing captured _flows_ in the `mitmproxy` window.
 In this window, you can select a flow by using the arrows and pressing ENTER, while pressing the letter `q` goes back to the overview screen.
 
-If you **cannot** see flows in `mitmproxy`, try restoring your `IP Settings` configuration to DHCP and configure ``http://192.168.1/2.Z/`` as the `Proxy` running on port `8080`.
+**Observation**: If you **cannot** see flows in `mitmproxy`, try restoring your `IP Settings` configuration to DHCP and configure ``http://192.168.1/2.Z/`` as the `Proxy` running on port `8080`. Replace the command line above to run `mitmproxy` in _proxy_ mode:
+
+```
+$ mitmproxy --ssl-insecure --showhost
+```
 
 ## Exercise 2: Malicious-in-the-middle against HTTPS
 
