@@ -1,19 +1,18 @@
-# Exercises: Tranrport Layer Security
+# Exercises: Transport Layer Security
 
 ## Preliminaries
 
 We do not require any new dependencies for this exercise. Make sure to have Wireshark and `mitmproxy` installed in your VM in bridged mode.
 
-**Observation**: If your VM is not working you can also install Wireshark and `mitmproxy` in your own host machine.
+**Observation**: If your VM is not working you can also install Wireshark and `mitmproxy` in your own host machine. In that case, replace referrences to IP address `192.168.1/2.Z` with `192.168.1/2.Y`
 
 ### Network Layout and Preparation
 
-This time the network will be simpler than the previous one, but will follow the same general layout depicted below.
+This time the network will be simpler than the previous one, but will follow the same general layout, depicted below.
 
-We will keep the same wireless networks (`NETSEC` and `SYSSEC`), and segment the wired network to `192.168.3.0/24`.
-Now the Access Point (AP) serves as the _router_ between the wireless and wired networks.
-The Web server will continue running on a Raspberry Pi in the wired network, with IP address `192.168.3.2`.
-The Web server abstracts a machine running on the Internet, to/from which traffic is routed by intermediate nodes.
+As previously, there are two wireless networks (`NETSEC` and `SYSSEC`), and the wired network is on subnetwork `192.168.3.0/24`.
+Now the Access Point (AP) serves as the _router_ between the wireless and the wired network.
+The Web server runs on a Raspberry Pi in the wired network, with IP address `192.168.3.2`, and abstracts a machine running on the Internet, to/from which traffic is routed by intermediate nodes.
 
 ![image](https://github.com/lenerd/au-syssec-e21-exercises/blob/master/06_transport_layer_security/network-layout.png)
 
