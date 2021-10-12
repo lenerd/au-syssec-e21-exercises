@@ -17,3 +17,4 @@ Exercises
 - [22.09.2021 Weak Entropy and Authentication Mechanisms](03_weak_entropy_and_authentication_mechanisms/)
 - [29.09.2021 Link Layer Security](04_link_layer_security/)
 - [06.10.2021 Network Layer Security](05_network_layer_security/)
+- [12.10.2021 Transport Layer Security](05_transport_layer_security/)
