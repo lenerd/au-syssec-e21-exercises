@@ -61,7 +61,13 @@ $ mitmproxy --ssl-insecure --mode transparent --showhost
 If everything is working correctly, you should try again to access the Web server `http://192.168.3.2/` in your mobile device and start seeing captured _flows_ in the `mitmproxy` window.
 In this window, you can select a flow by using the arrows and pressing ENTER, while pressing the letter `q` goes back to the overview screen.
 
-**Observation**: If you **cannot** see flows in `mitmproxy`, try restoring your `IP Settings` configuration to DHCP and configure ``192.168.1/2.Z`` as the `Proxy` running on port `8080`. Replace the command line above to run `mitmproxy` in _proxy_ mode:
+**Observation 1**: If you **cannot** see flows in `mitmproxy`, try running the command below to bypass [a problem with the VirtualBox driver](https://security.stackexchange.com/questions/197453/mitm-using-arp-spoofing-with-kali-linux-running-on-virtualbox-with-bridged-wifi):
+
+```
+sudo arpspoof -i <interface> -t <mobile> 192.168.3.2
+```
+
+**Observation 2**: If you still **cannot** see flows in `mitmproxy`, try restoring your `IP Settings` configuration to DHCP and configure ``192.168.1/2.Z`` as the `Proxy` running on port `8080`. Replace the command line above to run `mitmproxy` in _proxy_ mode:
 
 ```
 $ mitmproxy --ssl-insecure --showhost
