@@ -42,6 +42,11 @@ $ sudo sysctl -w net.ipv4.ip_forward=1
 $ sudo sysctl -w net.ipv4.conf.all.send_redirects=0
 ```
 
+It might be necessary to also set the following, more specific setting, where `<interface>` is replaced with you network interface (e.g., `wlan0` or `enp5s0`):
+```
+$ sudo sysctl -w net.ipv4.conf.<interface>.send_redirects=0
+```
+
 We will run `mitmproxy` in the VM to be able to perform some processing of the captured traffic. First, configure the `iptables` firewall to send all HTTP traffic captured at ports `80` and `443` in the VM to port `8080` under control of `mitmproxy`:
 
 ```
