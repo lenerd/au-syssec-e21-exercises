@@ -3,7 +3,7 @@ CFLAGS = -Wall -Wextra -O0  -fno-stack-protector -no-pie
 
 .phony: all clean
 
-all: print_user_id toctou flag.txt overflow1 overflow2
+all: print_user_id toctou flag.txt overflow1 overflow2 overflow3
 
 print_user_id: print_user_id.c
 	$(CC) -o $@ $(CFLAGS) $^
@@ -23,6 +23,9 @@ overflow1: overflow1.c
 
 overflow2: overflow2.c
 	$(CC) -o $@ $(CFLAGS) $^
+
+overflow3: overflow3.c
+	$(CC) -o $@ $(CFLAGS) -z execstack $^
 
 
 clean:
