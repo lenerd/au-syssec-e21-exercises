@@ -5,6 +5,26 @@
 #include <sys/sendfile.h>
 #include <sys/stat.h>
 
+void print_file(int fd) {
+    char buf[1024];
+    ssize_t bytes_read;
+    while ((bytes_read = read(fd, buf, 1024)) != 0) {
+        if (bytes_read < 0) {
+            perror("read failed");
+            exit(1);
+        }
+        ssize_t bytes_written = 0;
+        while (bytes_written < bytes_read) {
+            ssize_t result = write(1, buf + bytes_written, bytes_read - bytes_written);
+            if (result < 0) {
+                perror("write failed");
+                exit(1);
+            }
+            bytes_written += result;
+        }
+    }
+}
+
 int main(int argc, char** argv) {
     if (argc != 2) {
         printf("usage: %s <file to print>\n", argv[0]);
@@ -53,15 +73,7 @@ int main(int argc, char** argv) {
     printf("--------------------------------------------------------------------------------\n");
 
     // writing the file contents to standard output
-    size_t bytes_sent = 0;
-    while (bytes_sent < file_size) {
-        ssize_t result = sendfile(1, file_descriptor, NULL, file_size);
-        if (result == -1) {
-            perror("sendfile failed");
-            exit(1);
-        }
-        bytes_sent += result;
-    }
+    print_file(file_descriptor);
 
     return 0;
 }
