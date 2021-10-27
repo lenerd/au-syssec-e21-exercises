@@ -48,7 +48,7 @@ $ id --user root
 Moreover, each file is owned by a user. For example, the file `print_user_id`
 is owned by the user `alice` with the user id `1000` (see above):
 ```
-$ ln -l print_user_id
+$ ls -l print_user_id
 -rwxr-xr-x 1 alice users 16K 18. Okt 14:43 print_user_id
 ```
 When a user executes a program, then user ids are associated with the process.
@@ -136,7 +136,7 @@ is accessing.
 <details>
 <summary>Hint 2</summary>
 
-You can use the command [`ls -s <name of file> <name of
+You can use the command [`ln -s <name of file> <name of
 link>`](https://man.archlinux.org/man/ln.1) to create symbolic links to
 arbitrary files.
 
