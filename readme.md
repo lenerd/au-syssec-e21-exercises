@@ -19,3 +19,4 @@ Exercises
 - [06.10.2021 Network Layer Security](05_network_layer_security/)
 - [13.10.2021 Transport Layer Security](06_transport_layer_security/)
 - [27.10.2021 Software Security I](07_software_security_i/)
+- [03.11.2021 Software Security II](08_software_security_ii/)
